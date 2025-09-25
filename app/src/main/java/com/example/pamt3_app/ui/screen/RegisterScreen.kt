@@ -1,22 +1,21 @@
 package com.example.pamt3_app.ui.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
-    viewModel: RegisterViewModel
+    viewModel: AuthViewModel,
+    navController: NavController
 ) {
+    val form = viewModel.formInput.value
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -24,53 +23,64 @@ fun RegisterScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            text = "Register"
+        Text("Register", style = MaterialTheme.typography.titleLarge)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        InputField(
+            label = "NIM",
+            value = form.nim,
+            onValueChange = viewModel::updateNim
         )
 
-        Text(
-            modifier = Modifier.padding(bottom = 4.dp),
-            text = viewModel.nim.value
-        )
-        Text(
-            modifier = Modifier.padding(bottom = 12.dp),
-            text = viewModel.nama.value
+        InputField(
+            label = "Nama",
+            value = form.nama,
+            onValueChange = viewModel::updateNama
         )
 
-        OutlinedTextField(
-            modifier = Modifier.padding(bottom = 8.dp),
-            value = viewModel.nimInput.value,
-            onValueChange = { viewModel.nimInput.value = it },
-            label = { Text("NIM") }
+        InputField(
+            label = "Email",
+            value = form.email,
+            onValueChange = viewModel::updateEmail
         )
 
-        OutlinedTextField(
-            modifier = Modifier.padding(bottom = 8.dp),
-            value = viewModel.namaInput.value,
-            onValueChange = { viewModel.namaInput.value = it },
-            label = { Text("Nama") }
+        InputField(
+            label = "Alamat",
+            value = form.alamat,
+            onValueChange = viewModel::updateAlamat
         )
 
-        OutlinedTextField(
-            modifier = Modifier.padding(bottom = 8.dp),
-            value = viewModel.emailInput.value,
-            onValueChange = { viewModel.emailInput.value = it },
-            label = { Text("Email") }
-        )
+        Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            modifier = Modifier.padding(bottom = 8.dp),
-            value = viewModel.alamatInput.value,
-            onValueChange = { viewModel.alamatInput.value = it },
-            label = { Text("Alamat") }
-        )
-
-        Button(
-            modifier = Modifier.padding(top = 16.dp),
-            onClick = { viewModel.register() }
-        ) {
+        Button(onClick = {
+            viewModel.register()
+            navController.navigate("login")
+        }) {
             Text("Register")
         }
     }
+}
+
+
+@Composable
+fun InputField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    isPassword: Boolean = false
+) {
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label) },
+        visualTransformation = if (isPassword) {
+            androidx.compose.ui.text.input.PasswordVisualTransformation()
+        } else {
+            androidx.compose.ui.text.input.VisualTransformation.None
+        }
+    )
 }
