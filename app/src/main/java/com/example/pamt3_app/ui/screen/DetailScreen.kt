@@ -1,22 +1,18 @@
 package com.example.pamt3_app.ui.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
-    viewModel: AuthViewModel
+    viewModel: AuthViewModel,
+    navController: NavController
 ) {
     val user = viewModel.submittedData.value
 
@@ -24,14 +20,19 @@ fun DetailScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Text("Detail User", style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.height(16.dp))
+        Text("NIM: ${user.nim}")
         Text("Nama: ${user.nama}")
         Text("Email: ${user.email}")
-        Text("NIM: ${user.nim}")
-        Text("Alamat: ${user.alamat}")
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(onClick = { navController.navigate("register") }) {
+            Text("Daftar")
+        }
     }
 }

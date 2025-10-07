@@ -29,27 +29,10 @@ class MainActivity : ComponentActivity() {
 
             Pamt3appTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) {
-                    NavHost(
-                        navController = navController,
-                        startDestination = "register"
-                    ) {
-                        composable("register") {
-                            RegisterScreen(
-                                viewModel = authViewModel,
-                                navController = navController
-                            )
-                        }
-                        composable("login") {
-                            LoginScreen(
-                                viewModel = authViewModel,
-                                navController = navController
-                            )
-                        }
-                        composable("detail") {
-                            DetailScreen(
-                                viewModel = authViewModel
-                            )
-                        }
+                    NavHost(navController, startDestination = "login") {
+                        composable("login") { LoginScreen(viewModel = authViewModel, navController = navController) }
+                        composable("register") { RegisterScreen(viewModel = authViewModel, navController = navController) }
+                        composable("detail") { DetailScreen(viewModel = authViewModel, navController = navController) }
                     }
                 }
             }

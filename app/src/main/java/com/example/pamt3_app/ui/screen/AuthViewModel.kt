@@ -6,58 +6,43 @@ import androidx.lifecycle.ViewModel
 data class RegisterForm(
     val nim: String = "",
     val nama: String = "",
-    val email: String = "",
-    val alamat: String = ""
+    val email: String = ""
 )
 
 data class LoginForm(
-    val email: String = "",
+    val username: String = "",
     val password: String = ""
 )
 
 class AuthViewModel : ViewModel() {
-    var formInput = mutableStateOf(RegisterForm())
+    var registerForm = mutableStateOf(RegisterForm())
     var submittedData = mutableStateOf(RegisterForm())
 
     var loginForm = mutableStateOf(LoginForm())
-    var registeredAccount = mutableStateOf(LoginForm())
 
     // register
     fun updateNim(newNim: String) {
-        formInput.value = formInput.value.copy(nim = newNim)
+        registerForm.value = registerForm.value.copy(nim = newNim)
     }
 
     fun updateNama(newNama: String) {
-        formInput.value = formInput.value.copy(nama = newNama)
+        registerForm.value = registerForm.value.copy(nama = newNama)
     }
 
     fun updateEmail(newEmail: String) {
-        formInput.value = formInput.value.copy(email = newEmail)
+        registerForm.value = registerForm.value.copy(email = newEmail)
     }
 
-    fun updateAlamat(newAlamat: String) {
-        formInput.value = formInput.value.copy(alamat = newAlamat)
-    }
-
-    fun register() {
-        submittedData.value = formInput.value
+    fun simpanData() {
+        submittedData.value = registerForm.value
     }
 
     // login
-    fun updateLoginEmail(newEmail: String) {
-        loginForm.value = loginForm.value.copy(email = newEmail)
+    fun updateUsername(newUsername: String) {
+        loginForm.value = loginForm.value.copy(username = newUsername)
     }
 
-    fun updateLoginPassword(newPassword: String) {
+    fun updatePassword(newPassword: String) {
         loginForm.value = loginForm.value.copy(password = newPassword)
-    }
-
-    fun daftarAkun() {
-        registeredAccount.value = loginForm.value
-    }
-
-    fun login(): Boolean {
-        return loginForm.value.email == registeredAccount.value.email &&
-                loginForm.value.password == registeredAccount.value.password
     }
 }

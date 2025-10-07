@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.pamt3_app.ui.common.InputField
 
 @Composable
 fun RegisterScreen(
@@ -14,7 +15,7 @@ fun RegisterScreen(
     viewModel: AuthViewModel,
     navController: NavController
 ) {
-    val form = viewModel.formInput.value
+    val form = viewModel.registerForm.value
 
     Column(
         modifier = modifier
@@ -23,7 +24,7 @@ fun RegisterScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Register", style = MaterialTheme.typography.titleLarge)
+        Text("Daftar", style = MaterialTheme.typography.titleLarge)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -45,42 +46,13 @@ fun RegisterScreen(
             onValueChange = viewModel::updateEmail
         )
 
-        InputField(
-            label = "Alamat",
-            value = form.alamat,
-            onValueChange = viewModel::updateAlamat
-        )
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            viewModel.register()
-            navController.navigate("login")
+            viewModel.simpanData()
+            navController.navigate("detail")
         }) {
-            Text("Register")
+            Text("Simpan")
         }
     }
-}
-
-
-@Composable
-fun InputField(
-    label: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    isPassword: Boolean = false
-) {
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 8.dp),
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(label) },
-        visualTransformation = if (isPassword) {
-            androidx.compose.ui.text.input.PasswordVisualTransformation()
-        } else {
-            androidx.compose.ui.text.input.VisualTransformation.None
-        }
-    )
 }
